@@ -1,0 +1,36 @@
+@import 'node_modules/modern-normalize/modern-normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+html {
+  background-color: #e4e7eb;
+  user-select: none;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji';
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+a {
+  color: #fff;
+  text-underline-offset: 3px;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #dedede;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+}
+
+*::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0);
+}
