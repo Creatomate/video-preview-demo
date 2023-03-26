@@ -114,7 +114,6 @@ export class Renderer {
     iframe.setAttribute('scrolling', 'no');
     iframe.setAttribute('allow', 'autoplay');
     iframe.setAttribute('src', `https://creatomate.com/embed?mode=${mode}&token=${publicToken}`);
-    // iframe.setAttribute('src', `http://localhost:3000/embed?token=${publicToken}`);
     iframe.style.border = 'none';
     iframe.style.display = 'none';
 
