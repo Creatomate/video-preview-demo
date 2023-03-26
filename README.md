@@ -4,6 +4,12 @@ Add video rendering to your web apps! Seamlessly integrate our video renderer in
 
 This is a demo application showing how a dynamic video can be previewed in the browser using the [JavaScript Video SDK](https://creatomate.com/javascript-video-sdk). This code can be used as a basis for creating your own video editor applications using Creatomate's API.
 
+## Demo
+
+Try it out live: https://video-preview-demo.vercel.app
+
+The **Create Video** button is disabled in the live demo as this requires an API key. To run the example with your own API key, follow the instructions below.
+
 ## Usage
 
 ### Running this demo application
