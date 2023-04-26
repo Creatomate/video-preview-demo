@@ -75,7 +75,7 @@ export class Renderer {
   mode: 'player' | 'interactive';
 
   /**
-   * Whether the plugin is ready for use. Do no use any of the functions of this instance prior to the plugin is ready.
+   * Whether the plugin is ready for use. Do not use any of the functions of this instance prior to the plugin is ready.
    *
    * @see onReady()
    */
@@ -113,7 +113,7 @@ export class Renderer {
     iframe.setAttribute('height', '100%');
     iframe.setAttribute('scrolling', 'no');
     iframe.setAttribute('allow', 'autoplay');
-    iframe.setAttribute('src', `https://creatomate.com/embed?mode=${mode}&token=${publicToken}`);
+    iframe.setAttribute('src', `https://creatomate.com/embed?token=${publicToken}`);
     iframe.style.border = 'none';
     iframe.style.display = 'none';
 
@@ -336,6 +336,25 @@ export class Renderer {
   async setActiveElements(elementIds: string[]): Promise<void> {
     await this._sendCommand({ message: 'setActiveElements', elementIds }).catch((error) => {
       throw new Error(`Failed to set active elements: ${error.message}`);
+    });
+  }
+
+  /**
+   * Sets the zoom state in interactive mode.
+   * NOTE: This is an experimental setting and is likely to change in the near future.
+   *
+   * Zoom mode can be any of these values:
+   * - 'free': Allows the user to freely pan and zoom the canvas. The default option.
+   * - 'auto': The canvas is automatically scaled according to the viewport size.
+   * - 'fixed': Set the canvas to a fixed scale as provided by the 'scale' parameter.
+   * - 'centered': Keeps the canvas in the center when zoomed out.
+   *
+   * @param mode Zoom mode.
+   * @param scale Optional zoom scale (1.0 = 100%).
+   */
+  async setZoom(mode: 'free' | 'auto' | 'fixed' | 'centered', scale?: number) {
+    await this._sendCommand({ message: 'setZoom', mode, scale }).catch((error) => {
+      throw new Error(`Failed to set the zoom state: ${error.message}`);
     });
   }
 
