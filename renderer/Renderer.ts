@@ -408,6 +408,24 @@ export class Renderer {
     });
   }
 
+  /**
+   * Sets a list of RegExp rules used to determine whether a video asset should be fully cached on the client's device.
+   * This is especially useful for large video files that take a long time to download.
+   * These rules do not apply to files hosted by the Creatomate CDN, because those are always cached.
+   * NOTE: This is an experimental setting and is likely to change in the near future.
+   *
+   * @param rules A list of regular expressions matched against every video URL.
+   * @example
+   * // Disable caching of video files for URLs beginning with https://www.example.com/
+   * setCacheBypassRules([ /^https:\/\/www\.example\.com\// ]);
+   */
+  setCacheBypassRules(rules: RegExp[]) {
+    const serializedRules = rules.map(rule => rule.source);
+    return this._sendCommand({ message: 'setCacheBypassRules', rules: serializedRules }).catch((error) => {
+      throw new Error(`Failed to set cache bypass rules: ${error.message}`);
+    });
+  }
+
   private _sendCommand(message: Record<string, any>, payload?: Record<string, any>): Promise<any> {
     if (!this.ready) {
       throw new Error('The SDK is not yet ready. Please wait for the onReady event before calling any methods.');
