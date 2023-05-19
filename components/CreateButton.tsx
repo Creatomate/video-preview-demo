@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Renderer } from '../renderer/Renderer';
+import { Preview } from '@creatomate/preview';
 import { Button } from './Button';
 
 interface CreateButtonProps {
-  renderer: Renderer;
+  preview: Preview;
 }
 
 export const CreateButton: React.FC<CreateButtonProps> = (props) => {
@@ -36,7 +36,7 @@ export const CreateButton: React.FC<CreateButtonProps> = (props) => {
         setIsRendering(true);
 
         try {
-          const render = await finishVideo(props.renderer);
+          const render = await finishVideo(props.preview);
           if (render.status === 'succeeded') {
             setRender(render);
           } else {
@@ -59,14 +59,14 @@ const Component = styled(Button)`
   margin-left: auto;
 `;
 
-const finishVideo = async (renderer: Renderer) => {
+const finishVideo = async (preview: Preview) => {
   const response = await fetch('/api/videos', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      source: renderer.getSource(),
+      source: preview.getSource(),
     }),
   });
 

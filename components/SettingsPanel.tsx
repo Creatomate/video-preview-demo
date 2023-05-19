@@ -1,7 +1,6 @@
 import React, { Fragment, useMemo, useRef } from 'react';
 import styled from 'styled-components';
-import { Renderer } from '../renderer/Renderer';
-import { RendererState } from '../renderer/RendererState';
+import { Preview, PreviewState } from '@creatomate/preview';
 import { deepClone } from '../utility/deepClone';
 import { TextInput } from './TextInput';
 import { SelectInput } from './SelectInput';
@@ -10,8 +9,8 @@ import { Button } from './Button';
 import { CreateButton } from './CreateButton';
 
 interface SettingsPanelProps {
-  renderer: Renderer;
-  currentState?: RendererState;
+  preview: Preview;
+  currentState?: PreviewState;
 }
 
 export const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
@@ -26,24 +25,24 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
 
   return (
     <div>
-      <CreateButton renderer={props.renderer} />
+      <CreateButton preview={props.preview} />
 
       <Group>
         <GroupTitle>Intro</GroupTitle>
         <TextInput
           placeholder="Lorem ipsum dolor sit amet"
-          onFocus={() => ensureElementVisibility(props.renderer, 'Title', 1.5)}
-          onChange={(e) => setPropertyValue(props.renderer, 'Title', e.target.value, modificationsRef.current)}
+          onFocus={() => ensureElementVisibility(props.preview, 'Title', 1.5)}
+          onChange={(e) => setPropertyValue(props.preview, 'Title', e.target.value, modificationsRef.current)}
         />
         <TextInput
           placeholder="Enter your tagline here"
-          onFocus={() => ensureElementVisibility(props.renderer, 'Tagline', 1.5)}
-          onChange={(e) => setPropertyValue(props.renderer, 'Tagline', e.target.value, modificationsRef.current)}
+          onFocus={() => ensureElementVisibility(props.preview, 'Tagline', 1.5)}
+          onChange={(e) => setPropertyValue(props.preview, 'Tagline', e.target.value, modificationsRef.current)}
         />
         <TextInput
           placeholder="A second and longer text here ✌️"
-          onFocus={() => ensureElementVisibility(props.renderer, 'Start-Text', 1.5)}
-          onChange={(e) => setPropertyValue(props.renderer, 'Start-Text', e.target.value, modificationsRef.current)}
+          onFocus={() => ensureElementVisibility(props.preview, 'Start-Text', 1.5)}
+          onChange={(e) => setPropertyValue(props.preview, 'Start-Text', e.target.value, modificationsRef.current)}
         />
       </Group>
 
@@ -51,15 +50,15 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
         <GroupTitle>Outro</GroupTitle>
         <TextInput
           placeholder="Your Call To Action Here"
-          onFocus={() => ensureElementVisibility(props.renderer, 'Final-Text', 1.5)}
-          onChange={(e) => setPropertyValue(props.renderer, 'Final-Text', e.target.value, modificationsRef.current)}
+          onFocus={() => ensureElementVisibility(props.preview, 'Final-Text', 1.5)}
+          onChange={(e) => setPropertyValue(props.preview, 'Final-Text', e.target.value, modificationsRef.current)}
         />
       </Group>
 
       {slideElements?.map((slideElement, i) => {
         const transitionAnimation = slideElement.source.animations.find((animation: any) => animation.transition);
 
-        const nestedElements = props.renderer.getElements(slideElement);
+        const nestedElements = props.preview.getElements(slideElement);
         const textElement = nestedElements.find((element) => element.source.name?.endsWith('-Text'));
         const imageElement = nestedElements.find((element) => element.source.name?.endsWith('-Image'));
 
@@ -70,15 +69,15 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
               <Fragment>
                 <TextInput
                   placeholder={textElement.source.text}
-                  onFocus={() => ensureElementVisibility(props.renderer, textElement.source.name, 1.5)}
+                  onFocus={() => ensureElementVisibility(props.preview, textElement.source.name, 1.5)}
                   onChange={(e) =>
-                    setPropertyValue(props.renderer, textElement.source.name, e.target.value, modificationsRef.current)
+                    setPropertyValue(props.preview, textElement.source.name, e.target.value, modificationsRef.current)
                   }
                 />
                 <SelectInput
-                  onFocus={() => ensureElementVisibility(props.renderer, textElement.source.name, 1.5)}
+                  onFocus={() => ensureElementVisibility(props.preview, textElement.source.name, 1.5)}
                   onChange={(e) =>
-                    setTextStyle(props.renderer, textElement.source.name, e.target.value, modificationsRef.current)
+                    setTextStyle(props.preview, textElement.source.name, e.target.value, modificationsRef.current)
                   }
                 >
                   <option value="block-text">Block Text</option>
@@ -86,8 +85,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
                 </SelectInput>
                 <SelectInput
                   value={transitionAnimation?.type}
-                  onFocus={() => ensureElementVisibility(props.renderer, slideElement.source.name, 0.5)}
-                  onChange={(e) => setSlideTransition(props.renderer, slideElement.source.name, e.target.value)}
+                  onFocus={() => ensureElementVisibility(props.preview, slideElement.source.name, 0.5)}
+                  onChange={(e) => setSlideTransition(props.preview, slideElement.source.name, e.target.value)}
                 >
                   <option value="fade">Fade Transition</option>
                   <option value="circular-wipe">Circle Wipe Transition</option>
@@ -103,9 +102,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
                         key={url}
                         url={url}
                         onClick={async () => {
-                          await ensureElementVisibility(props.renderer, imageElement.source.name, 1.5);
+                          await ensureElementVisibility(props.preview, imageElement.source.name, 1.5);
                           await setPropertyValue(
-                            props.renderer,
+                            props.preview,
                             imageElement.source.name,
                             url,
                             modificationsRef.current,
@@ -121,7 +120,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
         );
       })}
 
-      <Button onClick={() => addSlide(props.renderer)} style={{ width: '100%' }}>
+      <Button onClick={() => addSlide(props.preview)} style={{ width: '100%' }}>
         Add Slide
       </Button>
     </div>
@@ -147,7 +146,7 @@ const ImageOptions = styled.div`
 
 // Updates the provided modifications object
 const setPropertyValue = async (
-  renderer: Renderer,
+  preview: Preview,
   selector: string,
   value: string,
   modifications: Record<string, any>,
@@ -161,43 +160,38 @@ const setPropertyValue = async (
   }
 
   // Set the template modifications
-  await renderer.setModifications(modifications);
+  await preview.setModifications(modifications);
 };
 
 // Sets the text styling properties
 // For a full list of text properties, refer to: https://creatomate.com/docs/json/elements/text-element
-const setTextStyle = async (
-  renderer: Renderer,
-  selector: string,
-  style: string,
-  modifications: Record<string, any>,
-) => {
+const setTextStyle = async (preview: Preview, selector: string, style: string, modifications: Record<string, any>) => {
   if (style === 'block-text') {
     modifications[`${selector}.background_border_radius`] = '0%';
   } else if (style === 'rounded-text') {
     modifications[`${selector}.background_border_radius`] = '50%';
   }
 
-  await renderer.setModifications(modifications);
+  await preview.setModifications(modifications);
 };
 
 // Jumps to a time position where the provided element is visible
-const ensureElementVisibility = async (renderer: Renderer, elementName: string, addTime: number) => {
+const ensureElementVisibility = async (preview: Preview, elementName: string, addTime: number) => {
   // Find element by name
-  const element = renderer.getElements().find((element) => element.source.name === elementName);
+  const element = preview.getElements().find((element) => element.source.name === elementName);
   if (element) {
     // Set playback time
-    await renderer.setTime(element.globalTime + addTime);
+    await preview.setTime(element.globalTime + addTime);
   }
 };
 
 // Sets the animation of a slide element
-const setSlideTransition = async (renderer: Renderer, slideName: string, type: string) => {
+const setSlideTransition = async (preview: Preview, slideName: string, type: string) => {
   // Make sure to clone the state as it's immutable
-  const mutatedState = deepClone(renderer.state);
+  const mutatedState = deepClone(preview.state);
 
   // Find element by name
-  const element = renderer.getElements(mutatedState).find((element) => element.source.name === slideName);
+  const element = preview.getElements(mutatedState).find((element) => element.source.name === slideName);
   if (element) {
     // Set the animation property
     // Refer to: https://creatomate.com/docs/json/elements/common-properties
@@ -211,14 +205,14 @@ const setSlideTransition = async (renderer: Renderer, slideName: string, type: s
 
     // Update the video source
     // Refer to: https://creatomate.com/docs/json/introduction
-    await renderer.setSource(renderer.getSource(mutatedState));
+    await preview.setSource(preview.getSource(mutatedState));
   }
 };
 
-const addSlide = async (renderer: Renderer) => {
+const addSlide = async (preview: Preview) => {
   // Get the video source
   // Refer to: https://creatomate.com/docs/json/introduction
-  const source = renderer.getSource();
+  const source = preview.getSource();
 
   // Delete the 'duration' and 'time' property values to make each element (Slide-1, Slide-2, etc.) autosize on the timeline
   delete source.duration;
@@ -238,10 +232,10 @@ const addSlide = async (renderer: Renderer) => {
     source.elements.splice(lastSlideIndex + 1, 0, newSlideSource);
 
     // Update the video source
-    await renderer.setSource(source);
+    await preview.setSource(source);
 
     // Jump to the time at which the text element is visible
-    await ensureElementVisibility(renderer, `${slideName}-Text`, 1.5);
+    await ensureElementVisibility(preview, `${slideName}-Text`, 1.5);
 
     // Scroll to the bottom of the settings panel
     const panel = document.querySelector('#panel');

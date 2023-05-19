@@ -2,7 +2,7 @@
 
 Add video rendering to your web apps! Seamlessly integrate our video renderer into your software and provide your users with video editing functionality – right in the browser.
 
-This is a demo application showing how a dynamic video can be previewed in the browser using the [JavaScript Video SDK](https://creatomate.com/javascript-video-sdk). This code can be used as a basis for creating your own video editor applications using Creatomate's API.
+This is a demo application showing how a dynamic video can be previewed in the browser using the [Preview SDK](https://creatomate.com/javascript-video-sdk). The code can be used as a basis for creating your own video editor applications using Creatomate's API.
 
 ## Demo
 
@@ -44,7 +44,13 @@ npm run dev
 
 ### Using this code in your own projects
 
-The JavaScript SDK consists of only a few source files located in the [renderer](https://github.com/Creatomate/video-preview-demo/tree/main/renderer) folder. In order to integrate the SDK into your own web application, simply copy the files from that folder into your project.
+Install the Preview SDK using the following command:
+
+```bash
+npm install @creatomate/preview
+```
+
+Please refer to [App.tsx](https://github.com/Creatomate/video-preview-demo/blob/main/components/App.tsx) to see an example of how to initialize the SDK.
 
 ## Issues & Comments
 

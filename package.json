@@ -15,10 +15,10 @@
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.26",
-    "@types/uuid": "^9.0.1",
     "prettier": "^2.8.1"
   },
   "dependencies": {
+    "@creatomate/preview": "^1.0.0",
     "creatomate": "^1.0.4",
     "eslint": "^8.30.0",
     "eslint-config-next": "^12.0.4",
@@ -29,7 +29,6 @@
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
     "styled-components": "^5.3.6",
-    "typescript": "^4.9.4",
-    "uuid": "^9.0.0"
+    "typescript": "^4.9.4"
   }
 }

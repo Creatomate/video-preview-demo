@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Renderer } from '../renderer/Renderer';
+import { Preview, PreviewState } from '@creatomate/preview';
 import { useWindowWidth } from '../utility/useWindowWidth';
-import { RendererState } from '../renderer/RendererState';
 import { SettingsPanel } from './SettingsPanel';
 
 const App: React.FC = () => {
@@ -12,54 +11,54 @@ const App: React.FC = () => {
   // Video aspect ratio that can be calculated once the video is loaded
   const [videoAspectRatio, setVideoAspectRatio] = useState<number>();
 
-  // Reference to the Creatomate Renderer
-  const rendererRef = useRef<Renderer>();
+  // Reference to the preview
+  const previewRef = useRef<Preview>();
 
-  // Current state of the Renderer
+  // Current state of the preview
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentState, setCurrentState] = useState<RendererState>();
+  const [currentState, setCurrentState] = useState<PreviewState>();
 
   // This sets up the video player in the provided HTML DIV element
-  const setUpRenderer = (htmlElement: HTMLDivElement) => {
-    if (rendererRef.current) {
-      rendererRef.current.dispose();
-      rendererRef.current = undefined;
+  const setUpPreview = (htmlElement: HTMLDivElement) => {
+    if (previewRef.current) {
+      previewRef.current.dispose();
+      previewRef.current = undefined;
     }
 
-    // Initialize a Creatomate Renderer
-    const renderer = new Renderer(htmlElement, 'player', process.env.NEXT_PUBLIC_VIDEO_PLAYER_TOKEN!);
+    // Initialize a preview
+    const preview = new Preview(htmlElement, 'player', process.env.NEXT_PUBLIC_VIDEO_PLAYER_TOKEN!);
 
-    // Once the Renderer is ready, load a template from our project
-    renderer.onReady = async () => {
-      await renderer.loadTemplate(process.env.NEXT_PUBLIC_TEMPLATE_ID!);
+    // Once the SDK is ready, load a template from our project
+    preview.onReady = async () => {
+      await preview.loadTemplate(process.env.NEXT_PUBLIC_TEMPLATE_ID!);
       setIsReady(true);
     };
 
-    renderer.onLoad = () => {
+    preview.onLoad = () => {
       setIsLoading(true);
     };
 
-    renderer.onLoadComplete = () => {
+    preview.onLoadComplete = () => {
       setIsLoading(false);
     };
 
-    // Listen for state changes of the Renderer
-    renderer.onStateChange = (state) => {
+    // Listen for state changes of the preview
+    preview.onStateChange = (state) => {
       setCurrentState(state);
       setVideoAspectRatio(state.width / state.height);
     };
 
-    rendererRef.current = renderer;
+    previewRef.current = preview;
   };
 
   return (
     <Component>
-      <Preview>
+      <Wrapper>
         <Container
           ref={(htmlElement) => {
-            if (htmlElement && htmlElement !== rendererRef.current?.element) {
-              setUpRenderer(htmlElement);
+            if (htmlElement && htmlElement !== previewRef.current?.element) {
+              setUpPreview(htmlElement);
             }
           }}
           style={{
@@ -67,12 +66,12 @@ const App: React.FC = () => {
               videoAspectRatio && windowWidth && windowWidth < 768 ? window.innerWidth / videoAspectRatio : undefined,
           }}
         />
-      </Preview>
+      </Wrapper>
 
       <Panel>
         {isReady && (
           <PanelContent id="panel">
-            <SettingsPanel renderer={rendererRef.current!} currentState={currentState} />
+            <SettingsPanel preview={previewRef.current!} currentState={currentState} />
           </PanelContent>
         )}
       </Panel>
@@ -95,7 +94,7 @@ const Component = styled.div`
   }
 `;
 
-const Preview = styled.div`
+const Wrapper = styled.div`
   display: flex;
 
   @media (min-width: 768px) {
