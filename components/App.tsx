@@ -27,7 +27,7 @@ const App: React.FC = () => {
     }
 
     // Initialize a preview
-    const preview = new Preview(htmlElement, 'player', process.env.NEXT_PUBLIC_VIDEO_PLAYER_TOKEN!);
+    const preview = new Preview(htmlElement, 'player', process.env.NEXT_PUBLIC_CREATOMATE_PUBLIC_TOKEN!);
 
     // Once the SDK is ready, load a template from our project
     preview.onReady = async () => {
