@@ -18,7 +18,7 @@
     "prettier": "^2.8.1"
   },
   "dependencies": {
-    "@creatomate/preview": "^1.0.0",
+    "@creatomate/preview": "^1.2.0",
     "creatomate": "^1.0.4",
     "eslint": "^8.30.0",
     "eslint-config-next": "^12.0.4",
