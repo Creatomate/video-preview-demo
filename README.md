@@ -18,7 +18,7 @@ This demo uses a video template from your account. The example code demonstrates
 
 1. Create a free account [here](https://creatomate.com/sign-in).
 2. Go to your project settings, and copy your **API Key** and **Public Token** under *Programmatic Access*:<br/><br/>![Screenshot](https://user-images.githubusercontent.com/44575638/227715496-5ae23468-c047-4ab8-beb2-e21b6c65d74b.png)<br/><br/>
-3. In your dashboard, go to **My Templates**, click **New**, go to the **Storytelling** category, and choose the **"Image Slideshow w/ Intro and Outro"** template, then click **Create Template**:<br/><br/>![Screenshot](https://user-images.githubusercontent.com/44575638/227714779-31292519-3a75-40a4-8c3f-549e28100a48.jpg)<br/><br/>
+3. In your dashboard, go to **Templates**, click **New**, go to the **Featured** category, and choose the **"Image Slideshow w/ Intro and Outro"** template, then click **Create Template**:<br/><br/>![template-screenshot](https://github.com/Creatomate/video-preview-demo/assets/44575638/10841294-b85d-47cd-bf7c-a435092e2abf)<br/><br/>
 4. From the address bar, copy the ID of the newly created template:<br/><br/>![Screenshot](https://user-images.githubusercontent.com/44575638/227736758-f9d522c3-3bbb-4b7b-92c7-e004e9dc16e5.png)<br/><br/>
 5. Create a new file called `.env.local` in the root of the project, providing the **API Key**, **Public Token**, and **Template ID** from the previous steps:
 
