@@ -18,8 +18,8 @@
     "prettier": "^2.8.1"
   },
   "dependencies": {
-    "@creatomate/preview": "^1.2.0",
-    "creatomate": "^1.0.4",
+    "@creatomate/preview": "^1.4.0",
+    "creatomate": "^1.1.0",
     "eslint": "^8.30.0",
     "eslint-config-next": "^12.0.4",
     "lodash": "^4.17.21",
